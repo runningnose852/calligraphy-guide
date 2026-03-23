@@ -198,42 +198,34 @@
       max-width: 420px;
     }
 
-    button,
-    a.action-link {
-      appearance: none;
-      border: 2px solid var(--card-line);
-      background: var(--pill);
-      color: var(--text);
-      padding: 18px 26px;
-      border-radius: var(--radius-pill);
-      min-height: 64px;
-      font-size: 1rem;
-      font-weight: 700;
-      text-decoration: none;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      box-shadow: 0 5px 0 rgba(23, 18, 22, 0.02);
-      transition: transform 0.14s ease, background 0.14s ease, box-shadow 0.14s ease;
-    }
+button,
+a.action-link {
+  appearance: none;
+  border: 2px solid var(--card-line);
+  background: var(--pill);
+  color: var(--text);
+  padding: 18px 26px;
+  border-radius: var(--radius-pill);
+  min-height: 64px;
+  font-size: 1rem;
+  font-weight: 700;
+  text-decoration: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  box-shadow: 0 5px 0 rgba(23, 18, 22, 0.02);
+  transition: transform 0.14s ease, background 0.14s ease, box-shadow 0.14s ease;
+}
 
-    button:hover,
-    a.action-link:hover {
-      transform: translateY(-1px);
-      box-shadow: 0 9px 20px var(--pill-shadow);
-    }
-
-    button.primary,
-    a.action-link.primary {
-      background: var(--pill-active);
-    }
-
-    button.secondary,
-    a.action-link.secondary {
-      background: transparent;
-    }
+button:hover,
+a.action-link:hover {
+  background: var(--pill-active);
+  color: var(--text);
+  transform: translateY(-1px);
+  box-shadow: 0 9px 20px var(--pill-shadow);
+}
 
     .actions,
     .sub-actions {

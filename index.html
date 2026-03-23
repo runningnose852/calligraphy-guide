@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Calligraphy Product Guide</title>
+  <style>
+    :root {
+      --bg: #efff00;
+      --card: #ead6e0;
+      --card-line: #2c2228;
+      --text: #171216;
+      --muted: #4d4048;
+      --pill: #f6ebf1;
+      --pill-active: #efff00;
+      --pill-shadow: rgba(23, 18, 22, 0.08);
+      --radius-card: 28px;
+      --radius-pill: 999px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: Arial, Helvetica, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      overflow-x: hidden;
+    }
+
+    .ticker {
+      width: 100%;
+      overflow: hidden;
+      white-space: nowrap;
+      padding: 20px 0 6px;
+      font-size: 13px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--text);
+      opacity: 0.9;
+    }
+
+    .ticker-track {
+      display: inline-block;
+      padding-left: 100%;
+      animation: tickerMove 28s linear infinite;
+    }
+
+    .ticker-track span {
+      display: inline-block;
+      margin-right: 56px;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 24px 20px 80px;
+      min-height: calc(100vh - 40px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .stack {
+      position: relative;
+      width: min(980px, 100%);
+      min-height: 620px;
+    }
+
+    .stack-layer {
+      position: absolute;
+      inset: 0;
+      border: 2px solid var(--card-line);
+      border-radius: var(--radius-card);
+      background: var(--card);
+    }
+
+    .stack-layer.layer-1 {
+      transform: translate(72px, 34px);
+    }
+
+    .stack-layer.layer-2 {
+      transform: translate(38px, 18px);
+    }
+
+    .card {
+      position: relative;
+      z-index: 3;
+      background: var(--card);
+      border: 2px solid var(--card-line);
+      border-radius: var(--radius-card);
+      min-height: 620px;
+      padding: 56px 68px 32px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 20px;
+      margin-bottom: 16px;
+    }
+
+    .brand {
+      font-size: 14px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+    }
+
+    .step-count {
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+    }
+
+    .question,
+    .result {
+      display: none;
+      flex: 1;
+      position: relative;
+    }
+
+    .question.active,
+    .result.active {
+      display: flex;
+      flex-direction: column;
+      animation: fadeUp 0.22s ease;
+    }
+
+    .content {
+      max-width: 720px;
+      margin: 0 auto;
+      width: 100%;
+      text-align: center;
+      padding-top: 26px;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(2.4rem, 5vw, 4.5rem);
+      line-height: 0.95;
+      letter-spacing: -0.05em;
+      text-transform: uppercase;
+      text-align: center;
+      font-weight: 800;
+    }
+
+    h2 {
+      margin: 0;
+      font-size: clamp(2rem, 4.6vw, 3.5rem);
+      line-height: 1.02;
+      letter-spacing: -0.05em;
+      text-transform: uppercase;
+      font-weight: 800;
+      text-align: center;
+    }
+
+    p.intro,
+    p {
+      color: var(--muted);
+      font-size: 1rem;
+      line-height: 1.7;
+    }
+
+    p.intro {
+      max-width: 650px;
+      margin: 18px auto 0;
+      text-align: center;
+    }
+
+    .question p,
+    .result p {
+      margin: 14px auto 0;
+      max-width: 620px;
+      text-align: center;
+    }
+
+    .options {
+      margin: 42px auto 0;
+      width: 100%;
+      max-width: 720px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    .options.single,
+    .actions.single,
+    .sub-actions.single {
+      grid-template-columns: 1fr;
+      max-width: 420px;
+    }
+
+    button,
+    a.action-link {
+      appearance: none;
+      border: 2px solid var(--card-line);
+      background: var(--pill);
+      color: var(--text);
+      padding: 18px 26px;
+      border-radius: var(--radius-pill);
+      min-height: 64px;
+      font-size: 1rem;
+      font-weight: 700;
+      text-decoration: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      box-shadow: 0 5px 0 rgba(23, 18, 22, 0.02);
+      transition: transform 0.14s ease, background 0.14s ease, box-shadow 0.14s ease;
+    }
+
+    button:hover,
+    a.action-link:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 9px 20px var(--pill-shadow);
+    }
+
+    button.primary,
+    a.action-link.primary {
+      background: var(--pill-active);
+    }
+
+    button.secondary,
+    a.action-link.secondary {
+      background: transparent;
+    }
+
+    .actions,
+    .sub-actions {
+      margin: 32px auto 0;
+      width: 100%;
+      max-width: 640px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    .nav-row {
+      margin-top: 34px;
+      display: flex;
+      justify-content: center;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+
+    .footer-note {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      margin-top: 30px;
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .footer-note .hint {
+      color: var(--muted);
+      font-weight: 600;
+      letter-spacing: 0.02em;
+      text-transform: none;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes tickerMove {
+      from { transform: translateX(0); }
+      to { transform: translateX(-100%); }
+    }
+
+    @media (max-width: 900px) {
+      .container {
+        padding-top: 14px;
+      }
+
+      .stack {
+        min-height: auto;
+      }
+
+      .stack-layer.layer-1,
+      .stack-layer.layer-2 {
+        display: none;
+      }
+
+      .card {
+        min-height: auto;
+        padding: 28px 22px 24px;
+      }
+
+      .options,
+      .actions,
+      .sub-actions {
+        grid-template-columns: 1fr;
+      }
+
+      .content {
+        padding-top: 10px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="ticker">
+    <div class="ticker-track">
+      <span>Running Calligraphy UK</span>
+      <span>Find Your Perfect Calligraphy Piece</span>
+      <span>Running Calligraphy UK</span>
+      <span>Find Your Perfect Calligraphy Piece</span>
+      <span>Running Calligraphy UK</span>
+      <span>Find Your Perfect Calligraphy Piece</span>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="stack">
+      <div class="stack-layer layer-1"></div>
+      <div class="stack-layer layer-2"></div>
+
+      <div class="card">
+        <div class="topbar">
+          <div class="brand">Running Calligraphy UK</div>
+          <div class="step-count" id="stepCount">1 / 4</div>
+        </div>
+
+        <div id="q1" class="question active" data-step="1 / 4">
+          <div class="content">
+            <h2>What type of product are you looking for?</h2>
+            <p>Choose the option that best matches what you have in mind.</p>
+            <div class="options single">
+              <button class="primary" onclick="showResult('result-digital-one')">Digital</button>
+              <button onclick="showQuestion('q-paper')">Paper</button>
+            </div>
+          </div>
+          <div class="footer-note">
+            <span>Start</span>
+            <span class="hint">Instant recommendation</span>
+          </div>
+        </div>
+
+        <div id="q-paper" class="question" data-step="2 / 4">
+          <div class="content">
+            <h2>Please choose a paper calligraphy option</h2>
+            <p>Select the format you would like for your original piece.</p>
+            <div class="options">
+              <button onclick="showQuestion('q-paper-ink')">Ink on Paper</button>
+              <button onclick="showQuestion('q-paper-framed')">Framed Work</button>
+              <button class="primary" onclick="showResult('result-paper-scroll')">Paper Scroll</button>
+            </div>
+            <div class="nav-row">
+              <button class="secondary" onclick="showQuestion('q1')">Back</button>
+            </div>
+          </div>
+          <div class="footer-note">
+            <span>Paper</span>
+            <span class="hint">Choose a branch</span>
+          </div>
+        </div>
+
+        <div id="q-paper-ink" class="question" data-step="3 / 4">
+          <div class="content">
+            <h2>Ink on paper</h2>
+            <p>Please choose your preferred size.</p>
+            <div class="options single">
+              <button class="primary" onclick="showResult('result-paper-a5')">A5</button>
+              <button onclick="showResult('result-paper-a4')">A4</button>
+            </div>
+            <div class="nav-row">
+              <button class="secondary" onclick="showQuestion('q-paper')">Back</button>
+            </div>
+          </div>
+          <div class="footer-note">
+            <span>Ink on Paper</span>
+            <span class="hint">Pick a size</span>
+          </div>
+        </div>
+
+        <div id="q-paper-framed" class="question" data-step="3 / 4">
+          <div class="content">
+            <h2>Framed work</h2>
+            <p>Please choose your preferred frame size.</p>
+            <div class="options">
+              <button class="primary" onclick="showResult('result-frame-small')">7&quot; × 5&quot;</button>
+              <button onclick="showResult('result-frame-a4')">A4</button>
+              <button onclick="showResult('result-frame-custom')">Customisation</button>
+            </div>
+            <div class="nav-row">
+              <button class="secondary" onclick="showQuestion('q-paper')">Back</button>
+            </div>
+          </div>
+          <div class="footer-note">
+            <span>Framed Work</span>
+            <span class="hint">Pick a size</span>
+          </div>
+        </div>
+
+        <div id="result-digital-one" class="result" data-step="Done">
+          <div class="content">
+            <h2>Digital calligraphy</h2>
+            <p>Please place your order on Etsy and write your requested wording in the customisation box.</p>
+            <p>If you need some consultation on the design before ordering, you can also DM me directly on Instagram.</p>
+            <div class="actions">
+              <a class="action-link primary" href="https://www.etsy.com/uk/listing/4475097052/chinese-calligraphy-digital-print" target="_blank">Order on Etsy</a>
+              <a class="action-link secondary" href="https://www.instagram.com/runningcalligraphy/" target="_blank">DM on Instagram</a>
+            </div>
+            <div class="sub-actions single">
+              <button class="secondary" onclick="resetFlow()">Start Again</button>
+            </div>
+          </div>
+          <div class="footer-note">
+            <span>Recommendation</span>
+            <span class="hint">Digital branch</span>
+          </div>
+        </div>
+
+        <div id="result-paper-a5" class="result" data-step="Done">
+          <div class="content">
+            <h2>Ink on paper · A5</h2>
+            <p>This option is suitable if you would like a custom calligraphy piece on paper in A5 size.</p>
+            <div class="actions single">
+              <a class="action-link primary" href="https://www.etsy.com/uk/listing/1870851505/custom-chinese-name-translation" target="_blank">View Etsy Listing</a>
+            </div>
+            <div class="sub-actions single">
+              <button class="secondary" onclick="resetFlow()">Start Again</button>
+            </div>
+          </div>
+          <div class="footer-note">
+            <span>Recommendation</span>
+            <span class="hint">A5 paper</span>
+          </div>
+        </div>
+
+        <div id="result-paper-a4" class="result" data-step="Done">
+          <div class="content">
+            <h2>Ink on paper · A4</h2>
+            <p>This option is suitable if you would like a custom calligraphy piece on paper in A4 size.</p>
+            <div class="actions single">
+              <a class="action-link primary" href="https://www.etsy.com/uk/listing/1870851505/custom-chinese-name-translation" target="_blank">View Etsy Listing</a>
+            </div>
+            <div class="sub-actions single">
+              <button class="secondary" onclick="resetFlow()">Start Again</button>
+            </div>
+          </div>
+          <div class="footer-note">
+            <span>Recommendation</span>
+            <span class="hint">A4 paper</span>
+          </div>
+        </div>
+
+        <div id="result-frame-small" class="result" data-step="Done">
+          <div class="content">
+            <h2>Framed work · 7&quot; × 5&quot;</h2>
+            <p>If you are looking for a smaller framed piece, you can consider this Etsy option.</p>
+            <div class="actions single">
+              <a class="action-link primary" href="https://www.etsy.com/uk/listing/1870851505/custom-chinese-name-translation?variation0=5113993186" target="_blank">View Etsy Listing</a>
+            </div>
+            <div class="sub-actions single">
+              <button class="secondary" onclick="resetFlow()">Start Again</button>
+            </div>
+          </div>
+          <div class="footer-note">
+            <span>Recommendation</span>
+            <span class="hint">Small frame</span>
+          </div>
+        </div>
+
+        <div id="result-frame-a4" class="result" data-step="Done">
+          <div class="content">
+            <h2>Framed work · A4</h2>
+            <p>If you are looking for an A4 framed piece, you can view this Etsy listing.</p>
+            <div class="actions single">
+              <a class="action-link primary" href="https://runningcalligraphyuk.etsy.com/listing/4337750693" target="_blank">View Etsy Listing</a>
+            </div>
+            <div class="sub-actions single">
+              <button class="secondary" onclick="resetFlow()">Start Again</button>
+            </div>
+          </div>
+          <div class="footer-note">
+            <span>Recommendation</span>
+            <span class="hint">A4 frame</span>
+          </div>
+        </div>
+
+        <div id="result-frame-custom" class="result" data-step="Done">
+          <div class="content">
+            <h2>Custom framed work</h2>
+            <p>If you would like a more customised framed design, please DM me directly on Instagram to discuss the details.</p>
+            <div class="actions single">
+              <a class="action-link secondary" href="https://www.instagram.com/runningcalligraphy/" target="_blank">DM on Instagram</a>
+            </div>
+            <div class="sub-actions single">
+              <button class="secondary" onclick="resetFlow()">Start Again</button>
+            </div>
+          </div>
+          <div class="footer-note">
+            <span>Recommendation</span>
+            <span class="hint">Custom frame</span>
+          </div>
+        </div>
+
+        <div id="result-paper-scroll" class="result" data-step="Done">
+          <div class="content">
+            <h2>Paper scroll</h2>
+            <p>If you are interested in a paper scroll, you can visit this Etsy listing.</p>
+            <div class="actions single">
+              <a class="action-link primary" href="https://runningcalligraphyuk.etsy.com/listing/4378599740" target="_blank">View Etsy Listing</a>
+            </div>
+            <div class="sub-actions single">
+              <button class="secondary" onclick="resetFlow()">Start Again</button>
+            </div>
+          </div>
+          <div class="footer-note">
+            <span>Recommendation</span>
+            <span class="hint">Scroll option</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const stepCount = document.getElementById('stepCount');
+
+    function hideAll() {
+      document.querySelectorAll('.question, .result').forEach(el => {
+        el.classList.remove('active');
+      });
+    }
+
+    function setStep(id) {
+      const el = document.getElementById(id);
+      const step = el?.dataset?.step || '';
+      if (stepCount) stepCount.textContent = step;
+    }
+
+    function showQuestion(id) {
+      hideAll();
+      document.getElementById(id).classList.add('active');
+      setStep(id);
+    }
+
+    function showResult(id) {
+      hideAll();
+      document.getElementById(id).classList.add('active');
+      setStep(id);
+    }
+
+    function resetFlow() {
+      hideAll();
+      document.getElementById('q1').classList.add('active');
+      setStep('q1');
+    }
+
+    setStep('q1');
+  </script>
+</body>
+</html>

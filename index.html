@@ -182,6 +182,10 @@
       text-align: center;
     }
 
+    .digital-copy {
+      text-align: justify;
+    }
+
     .options {
       margin: 42px auto 0;
       width: 100%;
@@ -198,34 +202,43 @@
       max-width: 420px;
     }
 
-button,
-a.action-link {
-  appearance: none;
-  border: 2px solid var(--card-line);
-  background: var(--pill);
-  color: var(--text);
-  padding: 18px 26px;
-  border-radius: var(--radius-pill);
-  min-height: 64px;
-  font-size: 1rem;
-  font-weight: 700;
-  text-decoration: none;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  box-shadow: 0 5px 0 rgba(23, 18, 22, 0.02);
-  transition: transform 0.14s ease, background 0.14s ease, box-shadow 0.14s ease;
-}
+    button,
+    a.action-link {
+      appearance: none;
+      border: 2px solid var(--card-line);
+      background: var(--pill);
+      color: var(--text);
+      padding: 18px 26px;
+      border-radius: var(--radius-pill);
+      min-height: 64px;
+      font-size: 1rem;
+      font-weight: 700;
+      text-decoration: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      box-shadow: 0 5px 0 rgba(23, 18, 22, 0.02);
+      transition: transform 0.14s ease, background 0.14s ease, box-shadow 0.14s ease;
+    }
 
-button:hover,
-a.action-link:hover {
-  background: var(--pill-active);
-  color: var(--text);
-  transform: translateY(-1px);
-  box-shadow: 0 9px 20px var(--pill-shadow);
-}
+    button:hover,
+    a.action-link:hover {
+      background: var(--pill-active);
+      transform: translateY(-1px);
+      box-shadow: 0 9px 20px var(--pill-shadow);
+    }
+
+    button.primary,
+    a.action-link.primary {
+      background: var(--pill);
+    }
+
+    button.secondary,
+    a.action-link.secondary {
+      background: var(--pill);
+    }
 
     .actions,
     .sub-actions {
@@ -402,7 +415,7 @@ a.action-link:hover {
         <div id="result-digital-one" class="result" data-step="Done">
           <div class="content">
             <h2>Digital calligraphy</h2>
-            <p>Please place your order on Etsy and write your requested wording in the customisation box. If you need some consultation on the design before ordering, you can also DM me directly on Instagram.</p>
+            <p class="digital-copy">Please place your order on Etsy and write your requested wording in the customisation box. If you need some consultation on the design before ordering, you can also DM me directly on Instagram.</p>
             <div class="actions">
               <a class="action-link primary" href="https://www.etsy.com/uk/listing/4475097052/chinese-calligraphy-digital-print" target="_blank">Order on Etsy</a>
               <a class="action-link secondary" href="https://www.instagram.com/runningcalligraphy/" target="_blank">DM on Instagram</a>
